@@ -1,0 +1,23 @@
+﻿USE [TCC]
+GO
+
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 21/02/2021 15:01:12 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Usuarios](
+	[Rm] [int] NOT NULL,
+	[Senha] [varchar](8) NOT NULL,
+	[Perfil] [varchar](15) NOT NULL,
+	[Nome] [varchar](20) NOT NULL,
+ CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED 
+(
+	[Rm] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
