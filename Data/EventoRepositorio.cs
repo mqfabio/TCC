@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,13 +14,18 @@ namespace TCC.Data
 {
     public class EventoRepositorio : IEventoRepositorio
     {
-        
+        private readonly string connectString;
+        public EventoRepositorio(IConfiguration config)
+        {
+            connectString = config["config"];
+            var test = config["Teste"];
+        }
 
         public async Task<bool> CadastrarAsync(Evento evento)
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectString))
                 {
                     var query = @"INSERT INTO [dbo].[evento]
                                 ( nome ,descricao ,dataEvento, statusEvento)
