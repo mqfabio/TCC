@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,13 +13,19 @@ namespace TCC.Data
 {
     public class UsuarioRepositorio : IUsuarioRepositorio
     {
-
+        private readonly string connectStringLocal;
+        private readonly string connectStringSomee;
+        public UsuarioRepositorio(IConfiguration config)
+        {
+            connectStringLocal = config["connectStringLocal"];
+            connectStringSomee = config["connectStringSomee"];
+        }
         public async Task<Usuario> BuscarPorEmailAsync(string email)
         {
            
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -56,7 +63,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var resultado2 = await BuscarPorEmailAsync(email);
 
@@ -79,7 +86,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"INSERT INTO [dbo].[usuario]
                                 ( senha, codUE, RM, CPF, RG, dataNascimento, nomeUsuario, email, statusUsuario, perfil, titulacao, cargo)
@@ -112,7 +119,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  IdUsuario, Senha, CodUE, RM, CPF, RG, DataNascimento, NomeUsuario, Email, Cargo, 
                                           StatusUsuario, Perfil from usuario";
@@ -132,7 +139,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"UPDATE [dbo].[usuario] set
                                 senha = @senha, 
@@ -167,7 +174,7 @@ namespace TCC.Data
 
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -206,7 +213,7 @@ namespace TCC.Data
 
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -245,7 +252,7 @@ namespace TCC.Data
 
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.LocalConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = "";
                     nomeUsuario = nomeUsuario + "%";

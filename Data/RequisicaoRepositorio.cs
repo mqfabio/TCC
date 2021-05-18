@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,13 +12,19 @@ namespace TCC.Data
 {
     public class RequisicaoRepositorio : IRequisicaoRepositorio
     {
+        private readonly string connectStringLocal;
+        private readonly string connectStringSomee;
+        public RequisicaoRepositorio(IConfiguration config)
+        {
+            connectStringLocal = config["connectStringLocal"];
+            connectStringSomee = config["connectStringSomee"];
+        }
 
-        
         public async Task<IEnumerable<Requisicao>> BuscarTodos()
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idRequisicao, idUsuario, dataRequisicao, assunto, descricao, pathanexodocumento, 
                                 statusRequisicao, situacao, motivo, titulacao from requisicao";
@@ -36,7 +43,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"INSERT INTO [dbo].[requisicao]
                                 (idUsuario, dataRequisicao, assunto, descricao, pathanexodocumento, 
@@ -65,7 +72,7 @@ namespace TCC.Data
             var idUsuario = user.Id;
             try
             {                           
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                    
                     var query = @"select  idRequisicao, idUsuario, dataRequisicao, assunto, descricao, pathanexodocumento, 

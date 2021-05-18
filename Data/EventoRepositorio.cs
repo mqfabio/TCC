@@ -14,18 +14,19 @@ namespace TCC.Data
 {
     public class EventoRepositorio : IEventoRepositorio
     {
-        private readonly string connectString;
+        private readonly string connectStringLocal;
+        private readonly string connectStringSomee;
         public EventoRepositorio(IConfiguration config)
         {
-            connectString = config["config"];
-            var test = config["Teste"];
+            connectStringLocal = config["connectStringLocal"];
+            connectStringSomee = config["connectStringSomee"];
         }
 
         public async Task<bool> CadastrarAsync(Evento evento)
         {
             try
             {
-                using (var conexao = new SqlConnection(connectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"INSERT INTO [dbo].[evento]
                                 ( nome ,descricao ,dataEvento, statusEvento)
@@ -46,7 +47,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"UPDATE [dbo].[evento] set
                                         nome = @nome ,
@@ -69,7 +70,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var param = new { id = id };
 
@@ -91,7 +92,7 @@ namespace TCC.Data
         {
             try
             {                         
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where Nome = @nome";
 
@@ -112,7 +113,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where  format(DataEvento,'yyyy-MM-dd')  
                                                                       between format(@dataInicio,'yyyy-MM-dd') and format(@dataFim,'yyyy-MM-dd')";
@@ -134,7 +135,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento";
                     var resultado = await conexao.QueryAsync<Evento>(query);
@@ -155,7 +156,7 @@ namespace TCC.Data
             try
             {
                 
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                     {
                     var param = new { nomeEvento = nomeEvento, dataInicio = dataInicio, datafim = datafim};
                     var query = @"select 
@@ -207,7 +208,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var param = new { rm = rm };
                     var query = @"select 

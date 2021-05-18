@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,12 +13,19 @@ namespace TCC.Data
 {
     public class ParticipanteEventoRepositorio : IParticipanteEventoRepositorio
     {
-       
+
+        private readonly string connectStringLocal;
+        private readonly string connectStringSomee;
+        public ParticipanteEventoRepositorio(IConfiguration config)
+        {
+            connectStringLocal = config["connectStringLocal"];
+            connectStringSomee = config["connectStringSomee"];
+        }
         public async Task<bool> CadastrarAsync(Participante_evento pe)
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"INSERT INTO [dbo].[participante_evento]
                             (idEvento, idUsuario)
@@ -51,7 +59,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"SELECT idUsuario, idEvento from participante_evento WHERE idUsuario = @idUsuario and idEvento = @idEvento";
 
@@ -75,7 +83,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(Configuracao.SomeeConnectString))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
 
                     var param = new { idUsuario = idUsuario, idEvento = idEvento };
