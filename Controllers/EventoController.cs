@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using TCC.DTO;
+using TCC.Enums;
 using TCC.Interfaces;
 using TCC.Models;
 
@@ -28,6 +29,9 @@ namespace TCC.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CadastrarAsync([Required][FromBody] Evento evento)
         {
+            if (!Enum.IsDefined(typeof(StatusEventoEnum), evento.StatusEvento))
+                return BadRequest("Status do evento inválido.");
+
             var resultado = await _evento.CadastrarAsync(evento);
 
             try

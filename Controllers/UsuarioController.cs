@@ -53,10 +53,12 @@ namespace TCC.Controllers
         {
             var validar = await _usuario.PegarPeloRMAsync(usuario.RM);
 
-            if(validar != null)            
+            if (validar != null)
                 return BadRequest("Não pode cadastrar outro usuário com RM ja cadastrado.");
-            else if(!Enum.IsDefined(typeof(PerfilEnum), usuario.Perfil))
+            else if (!Enum.IsDefined(typeof(PerfilEnum), usuario.Perfil))
                 return BadRequest("Perfil de usuário inválido.");
+            else if (!Enum.IsDefined(typeof(StatusUsuarioEnum), usuario.StatusUsuario))
+                return BadRequest("Status do usuário inválido.");
 
             var resultado = await _usuario.CadastrarAsync(usuario);
             {
