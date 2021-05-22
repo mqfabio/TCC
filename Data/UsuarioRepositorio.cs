@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using TCC.Enums;
 using TCC.Interfaces;
 using TCC.Models;
 
@@ -25,7 +26,7 @@ namespace TCC.Data
            
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -63,7 +64,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var resultado2 = await BuscarPorEmailAsync(email);
 
@@ -119,7 +120,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  IdUsuario, Senha, CodUE, RM, CPF, RG, DataNascimento, NomeUsuario, Email, Cargo, 
                                           StatusUsuario, Perfil from usuario";
@@ -139,7 +140,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"UPDATE [dbo].[usuario] set
                                 senha = @senha, 
@@ -252,7 +253,7 @@ namespace TCC.Data
 
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = "";
                     nomeUsuario = nomeUsuario + "%";
@@ -305,6 +306,26 @@ namespace TCC.Data
 
                     return resultado;
                 }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<Usuario> InativarAsync(Usuario usuario)
+        {
+            try
+            {
+                //var resultado = await BuscarPorRMOuNomeAsync(usuario.RM, usuario.NomeUsuario);
+
+                //if(resultado != null)
+                //{
+                    usuario.StatusUsuario = StatusUsuarioEnum.inativo;
+                    await AlterarAsync(usuario);
+                    return usuario;
+                //}
+                //return null;
             }
             catch (Exception e)
             {

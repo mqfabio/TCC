@@ -49,10 +49,6 @@ namespace TCC.Models
             return resultado;
         }
 
-        public Task<bool> Inativar(int idServidor)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<IEnumerable<Usuario>> BuscarTodosAsync()
         {
@@ -97,5 +93,10 @@ namespace TCC.Models
             return resultado;
         }
 
+        public async Task<Usuario> InativarAsync(Usuario usuario)
+        {
+            var resultado = await _usuarioRepositorio.InativarAsync(usuario);
+            return resultado;
+        }
     }
 }

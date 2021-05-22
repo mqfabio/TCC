@@ -226,6 +226,29 @@ namespace TCC.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpPut("inativar")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> InativarAsync(Usuario usuario)
+        {
+            var resultado = await _usuario.InativarAsync(usuario);
+            try
+            {
+                if(resultado != null)
+                {
+                    return Ok(usuario);
+                }
+                else
+                {
+                    return BadRequest("Usuario não encontrado");
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError.GetHashCode());
+            }
+            throw new NotImplementedException();
+        }
+
     }
 }
 

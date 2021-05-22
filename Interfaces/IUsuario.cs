@@ -10,7 +10,6 @@ namespace TCC.Interfaces
     {
         Task<bool> CadastrarAsync(Usuario servidor);
         //Task<bool> AlterarAsync(Servidor servidor);
-        Task<bool> Inativar(int idServidor);
         Task<IEnumerable<Usuario>> BuscarTodosAsync();
         Task<Usuario> PegarPeloEmailSenhaAsync(string email, string senha);
         Task<bool> AlterarAsync(Usuario idUsuario);
@@ -18,5 +17,6 @@ namespace TCC.Interfaces
         Task<Usuario> PegarPeloRMAsync(int rm);
         Task<Usuario> PegarPeloNomeAsync(string nome);
         Task<IEnumerable<Usuario>> PegarPeloRMOuNomeAsync(int rm, string nomeUsuario);
+        Task<Usuario> InativarAsync(Usuario usuario);
     }
 }
