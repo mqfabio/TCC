@@ -208,5 +208,24 @@ namespace TCC.Controllers
             }
         }
 
+        [HttpPut("inativar")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> InativarAsync(Evento evento)
+        {
+            var resultado = await _evento.InativarAsync(evento);
+            try
+            {
+                if (resultado != null)
+                    return Ok(evento);
+                else
+                    return BadRequest("Evento não encontrado");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError.GetHashCode());
+            }
+            throw new NotImplementedException();
+        }
+
     }
 }

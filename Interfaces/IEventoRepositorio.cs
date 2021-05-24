@@ -23,5 +23,7 @@ namespace TCC.Interfaces
         Task<IEnumerable<Evento>> BuscarPeloRmAsync(int rm);
 
         Task<IEnumerable<Evento>> BuscarPelaDataAsync(DateTime dataInicio, DateTime dataFim);
+
+        Task<Evento> InativarAsync(Evento evento);
     }
 }

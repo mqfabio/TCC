@@ -90,5 +90,11 @@ namespace TCC.Models
             var resultado = await _eventoRepositorio.BuscarPelaDataAsync(dataInicio, dataFim);
             return resultado;
         }
+
+        public async Task<Evento> InativarAsync(Evento evento)
+        {
+            var resultado = await _eventoRepositorio.InativarAsync(evento);
+            return resultado;
+        }
     }
 }

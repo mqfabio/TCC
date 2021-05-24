@@ -317,15 +317,9 @@ namespace TCC.Data
         {
             try
             {
-                //var resultado = await BuscarPorRMOuNomeAsync(usuario.RM, usuario.NomeUsuario);
-
-                //if(resultado != null)
-                //{
-                    usuario.StatusUsuario = StatusUsuarioEnum.inativo;
-                    await AlterarAsync(usuario);
-                    return usuario;
-                //}
-                //return null;
+                usuario.StatusUsuario = StatusUsuarioEnum.inativo;
+                await AlterarAsync(usuario);
+                return usuario;           
             }
             catch (Exception e)
             {

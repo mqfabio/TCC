@@ -16,10 +16,7 @@ namespace TCC.Interfaces
         Task<List<EventoComUsuariosParticipantes>> BuscarEventosPeloNomeouDataTrazendoUsuarioAsync(string nomeEvento, DateTime? dataInicio, DateTime? datafim);
         Task<IEnumerable<Evento>> BuscarPeloRmAsync(int rm);
         Task<IEnumerable<Evento>> BuscarPorNomeOuData(DateTime dataInicio, DateTime dataFim);
+        Task<Evento> InativarAsync(Evento evento);
 
-
-        //IEnumerable<Evento> ConsultarInformacoes();
-        //IEnumerable<Servidor> ConsultarParticipacoesEvento(int idEvento);
-        //IEnumerable<Requisicao> ConsultarRequisicoes();
     }
 }

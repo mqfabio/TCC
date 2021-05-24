@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using TCC.DTO;
+using TCC.Enums;
 using TCC.Interfaces;
 using TCC.Models;
 
@@ -47,7 +48,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"UPDATE [dbo].[evento] set
                                         nome = @nome ,
@@ -92,7 +93,7 @@ namespace TCC.Data
         {
             try
             {                         
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where Nome = @nome";
 
@@ -113,7 +114,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where  format(DataEvento,'yyyy-MM-dd')  
                                                                       between format(@dataInicio,'yyyy-MM-dd') and format(@dataFim,'yyyy-MM-dd')";
@@ -135,7 +136,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento";
                     var resultado = await conexao.QueryAsync<Evento>(query);
@@ -230,6 +231,20 @@ namespace TCC.Data
 
                     return resultado;
                 }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<Evento> InativarAsync(Evento evento)
+        {
+            try
+            {
+                evento.StatusEvento = StatusEventoEnum.FECHADO;
+                await AlterarAsync(evento);
+                return evento;
             }
             catch (Exception e)
             {
