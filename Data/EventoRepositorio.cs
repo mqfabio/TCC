@@ -48,7 +48,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"UPDATE [dbo].[evento] set
                                         nome = @nome ,
@@ -93,7 +93,7 @@ namespace TCC.Data
         {
             try
             {                         
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where Nome = @nome";
 
@@ -114,7 +114,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where  format(DataEvento,'yyyy-MM-dd')  
                                                                       between format(@dataInicio,'yyyy-MM-dd') and format(@dataFim,'yyyy-MM-dd')";
@@ -136,7 +136,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento";
                     var resultado = await conexao.QueryAsync<Evento>(query);
@@ -159,6 +159,7 @@ namespace TCC.Data
                 
                 using (var conexao = new SqlConnection(connectStringSomee))
                     {
+                    nomeEvento = nomeEvento + '%';
                     var param = new { nomeEvento = nomeEvento, dataInicio = dataInicio, datafim = datafim};
                     var query = @"select 
                                         p.idEvento 'IdEvento',
@@ -173,7 +174,7 @@ namespace TCC.Data
                                         participante_evento p ON e.idEvento = p.idEvento 
                                 LEFT JOIN 
                                         usuario u ON p.idusuario = u.idusuario
-                                WHERE e.nome  = @nomeEvento or format(DataEvento,'yyyy-MM-dd')  
+                                WHERE e.nome  LIKE @nomeEvento or format(DataEvento,'yyyy-MM-dd')  
                                                                       between format(@dataInicio,'yyyy-MM-dd') and format(@datafim,'yyyy-MM-dd')
                                                                       and u.Perfil = 0";
                     var resultado = await conexao.QueryAsync<EventoDoUsuarioDTO>(query, param);

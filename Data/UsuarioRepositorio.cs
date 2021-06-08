@@ -26,7 +26,7 @@ namespace TCC.Data
            
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -64,7 +64,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var resultado2 = await BuscarPorEmailAsync(email);
 
@@ -120,7 +120,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  IdUsuario, Senha, CodUE, RM, CPF, RG, DataNascimento, NomeUsuario, Email, Cargo, 
                                           StatusUsuario, Perfil from usuario";
@@ -140,7 +140,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"UPDATE [dbo].[usuario] set
                                 senha = @senha, 
@@ -253,7 +253,7 @@ namespace TCC.Data
 
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = "";
                     nomeUsuario = nomeUsuario + "%";
