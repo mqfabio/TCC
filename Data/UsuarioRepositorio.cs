@@ -26,7 +26,7 @@ namespace TCC.Data
            
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -64,7 +64,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var resultado2 = await BuscarPorEmailAsync(email);
 

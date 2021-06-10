@@ -17,10 +17,6 @@ namespace TCC.Models
         public List<int> Participantes { get; set; }
 
 
-
-
-
-
         private readonly IEventoRepositorio _eventoRepositorio;
 
         public Evento(IEventoRepositorio eventoRepositorio)
