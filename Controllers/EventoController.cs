@@ -17,17 +17,19 @@ namespace TCC.Controllers
     public class EventoController : ControllerBase
     {
         private readonly IEvento _evento;
+        private readonly IParticipante_evento _participante_Evento;
 
-        public EventoController(IEvento evento)
+        public EventoController(IEvento evento, IParticipante_evento participante_Evento)
         {
             _evento = evento;
+            this._participante_Evento = participante_Evento;
         }
-
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CadastrarAsync([Required][FromBody] Evento evento)
         {
+            
             if (!Enum.IsDefined(typeof(StatusEventoEnum), evento.StatusEvento))
                 return BadRequest("Status do evento inválido.");
 
@@ -52,6 +54,42 @@ namespace TCC.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpPost("eventoParticipante")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CadastrarComParticipanteAsync([Required][FromBody] Evento evento)
+        {
+
+            if (!Enum.IsDefined(typeof(StatusEventoEnum), evento.StatusEvento))
+                return BadRequest("Status do evento inválido.");
+
+            var resultado = await _evento.CadastrarAsync(evento);
+
+            foreach (int participanteId in evento.Participantes)
+            {
+                var pEvento = new Participante_evento();
+                pEvento.IdEvento = evento.IdEvento;
+                pEvento.IdUsuario = participanteId;
+                await _participante_Evento.CadastrarAsync(pEvento);
+            }
+
+            try
+            {
+                if (resultado)
+                {
+                    return StatusCode(HttpStatusCode.Created.GetHashCode());
+                }
+                else
+                {
+                    return StatusCode(HttpStatusCode.InternalServerError.GetHashCode());
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError.GetHashCode(), "Erro inesperado. Entre em contato com o administrador.");
+            }
+
+            throw new NotImplementedException();
+        }
 
         [HttpPut("id/{id}")]
         [Authorize(Roles = "Admin")]

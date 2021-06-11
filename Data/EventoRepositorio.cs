@@ -27,14 +27,26 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"INSERT INTO [dbo].[evento]
                                 ( nome ,descricao ,dataEvento, statusEvento)
-                                    Values (@Nome, @Descricao, @DataEvento, @StatusEvento)";
+                                    Values (@Nome, @Descricao, @DataEvento, @StatusEvento)
+                                    select cast (scope_identity() as int)";
+                    object o = await conexao.ExecuteScalarAsync(query, evento, commandType: CommandType.Text);
+                    if (o != null)
+                    {
+                        evento.IdEvento = Convert.ToInt32(o);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
 
-                    var resultado = await conexao.ExecuteAsync(query, evento, commandType: CommandType.Text);
-                    return resultado == 1;
+
+                    //var resultado = await conexao.ExecuteAsync(query, evento, commandType: CommandType.Text);
+                    //return resultado == 1;
                 }
             }
             catch (Exception ex)

@@ -25,7 +25,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  codUE, nome, endereco, telefone, pathlogotipo from unidadeEnsino";
                     var resultado = await conexao.QueryAsync<UnidadeEnsino>(query);
