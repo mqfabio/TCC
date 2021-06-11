@@ -14,7 +14,7 @@ namespace TCC.Interfaces
 
         Task<Evento> BuscarPorNomeAsync(string nome);
 
-        Task<IEnumerable<Evento>> BuscarTodosAsync();
+        //Task<IEnumerable<Evento>> BuscarTodosAsync();
 
         Task<bool> AlterarAsync(Evento evento);
 
@@ -25,5 +25,6 @@ namespace TCC.Interfaces
         Task<IEnumerable<Evento>> BuscarPelaDataAsync(DateTime dataInicio, DateTime dataFim);
 
         Task<Evento> InativarAsync(Evento evento);
+        Task<List<EventoComUsuariosParticipantes>> BuscarTodosAsync();
     }
 }

@@ -27,7 +27,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"INSERT INTO [dbo].[evento]
                                 ( nome ,descricao ,dataEvento, statusEvento)
@@ -144,21 +144,51 @@ namespace TCC.Data
             }
         }
 
-        public async Task<IEnumerable<Evento>> BuscarTodosAsync()
+        public async Task<List<EventoComUsuariosParticipantes>> BuscarTodosAsync()
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
-                    var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento";
-                    var resultado = await conexao.QueryAsync<Evento>(query);
+                    var query = @"select 
+                                        p.idEvento 'IdEvento',
+                                        e.nome 'Nome',
+                                        e.descricao 'Descricao',
+                                        e.dataevento 'DataEvento',
+                                        u.nomeusuario 'NomeUsuario',
+                                        e.statusEvento 'StatusEvento'
+                                from 
+                                        evento e 
+                                LEFT JOIN 
+                                        participante_evento p ON e.idEvento = p.idEvento 
+                                LEFT JOIN 
+                                        usuario u ON p.idusuario = u.idusuario";
 
-                    return resultado;
+                    var resultado = await conexao.QueryAsync<EventoDoUsuarioDTO>(query);
+
+                    var listaRetorno = new List<EventoComUsuariosParticipantes>();
+                    var resultadoAgrupadoPorCurso = resultado.GroupBy(x => x.IdEvento).OrderBy(x => x.Key).ToList();
+                    Console.WriteLine("entrou");
+                    resultadoAgrupadoPorCurso.ForEach((Action<IGrouping<int, EventoDoUsuarioDTO>>)(evento =>
+                    {
+                        listaRetorno.Add(new EventoComUsuariosParticipantes
+                        {
+                            IdEvento = evento.Key,
+                            Nome = evento.Select(x => x.Nome).FirstOrDefault(),
+                            Descricao = evento.Select(x => x.Descricao).FirstOrDefault(),
+                            Participantes = evento.Select(x => x.NomeUsuario).ToList(),
+                            DataEvento = evento.Select(x => x.DataEvento).FirstOrDefault(),
+                            StatusEvento = evento.Select(x => x.StatusEvento).FirstOrDefault()
+                        }
+                        );
+                    }));
+
+                    return listaRetorno;
                 }
             }
             catch (Exception e)
             {
-                throw   new Exception(e.Message);
+                throw new Exception(e.Message);
             }
         }
 
@@ -169,7 +199,7 @@ namespace TCC.Data
             try
             {
                 
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                     {
                     nomeEvento = nomeEvento + '%';
                     var param = new { nomeEvento = nomeEvento, dataInicio = dataInicio, datafim = datafim};

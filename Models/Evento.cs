@@ -63,7 +63,7 @@ namespace TCC.Models
             return resultado;
         }
 
-        public async Task<IEnumerable<Evento>> BuscarTodosAsync()
+        public async Task<List<EventoComUsuariosParticipantes>> BuscarTodosAsync()
         {
             var resultado = await _eventoRepositorio.BuscarTodosAsync();
             return resultado;
