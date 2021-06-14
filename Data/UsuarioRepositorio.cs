@@ -65,8 +65,12 @@ namespace TCC.Data
             try
             {
                 using (var conexao = new SqlConnection(connectStringLocal))
-                {
+                { 
                     var resultado2 = await BuscarPorEmailAsync(email);
+                    if(resultado2 == null)
+                    {
+                        return null;
+                    }
 
                     bool senhaValida = BCrypt.Net.BCrypt.Verify(senha, resultado2.Senha);
 

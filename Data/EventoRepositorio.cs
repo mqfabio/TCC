@@ -148,7 +148,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select 
                                         p.idEvento 'IdEvento',
@@ -199,7 +199,7 @@ namespace TCC.Data
             try
             {
                 
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                     {
                     nomeEvento = nomeEvento + '%';
                     var param = new { nomeEvento = nomeEvento, dataInicio = dataInicio, datafim = datafim};
@@ -223,7 +223,6 @@ namespace TCC.Data
 
                     var listaRetorno = new List<EventoComUsuariosParticipantes>();
                     var resultadoAgrupadoPorCurso = resultado.GroupBy(x => x.IdEvento).OrderBy(x => x.Key).ToList();
-                    Console.WriteLine("entrou");
                     resultadoAgrupadoPorCurso.ForEach((Action<IGrouping<int, EventoDoUsuarioDTO>>)(evento =>
                     {
                         listaRetorno.Add(new EventoComUsuariosParticipantes
@@ -232,7 +231,7 @@ namespace TCC.Data
                             Nome = evento.Select(x => x.Nome).FirstOrDefault(),
                             Descricao = evento.Select(x => x.Descricao).FirstOrDefault(),
                             Participantes = evento.Select(x => x.NomeUsuario).ToList(),
-                            DataEvento = evento.Select(x => x.DataEvento).FirstOrDefault(),
+                            DataEvento = evento.Select(x => x.DataEvento.Date).FirstOrDefault(),
                             StatusEvento = evento.Select(x => x.StatusEvento).FirstOrDefault()
                         }
                         );                       
