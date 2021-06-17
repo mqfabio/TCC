@@ -201,7 +201,7 @@ namespace TCC.Data
                 
                 using (var conexao = new SqlConnection(connectStringSomee))
                     {
-                    nomeEvento = nomeEvento + '%';
+                    if(nomeEvento != null) nomeEvento = nomeEvento + '%';
                     var param = new { nomeEvento = nomeEvento, dataInicio = dataInicio, datafim = datafim};
                     var query = @"select 
                                         p.idEvento 'IdEvento',
@@ -217,8 +217,7 @@ namespace TCC.Data
                                 LEFT JOIN 
                                         usuario u ON p.idusuario = u.idusuario
                                 WHERE e.nome  LIKE @nomeEvento or format(DataEvento,'yyyy-MM-dd')  
-                                                                      between format(@dataInicio,'yyyy-MM-dd') and format(@datafim,'yyyy-MM-dd')
-                                                                      and u.Perfil = 0";
+                                                                      between format(@dataInicio,'yyyy-MM-dd') and format(@datafim,'yyyy-MM-dd')";
                     var resultado = await conexao.QueryAsync<EventoDoUsuarioDTO>(query, param);
 
                     var listaRetorno = new List<EventoComUsuariosParticipantes>();
