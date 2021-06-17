@@ -8,6 +8,7 @@ namespace TCC.Enums
     public enum StatusEventoEnum
     {
         FECHADO,
-        ATIVO
+        ATIVO,
+        CANCELADO
     }
 }
