@@ -140,7 +140,7 @@ namespace TCC.Controllers
             {
                 if (resultado)
                 {
-                    return StatusCode(HttpStatusCode.Created.GetHashCode());
+                    return StatusCode(HttpStatusCode.OK.GetHashCode());
                 }
                 else
                 {

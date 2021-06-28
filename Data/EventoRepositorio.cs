@@ -122,6 +122,27 @@ namespace TCC.Data
             }
         }
 
+        public async Task<Evento> BuscarPorIdAsync(int  id)
+        {
+            try
+            {
+                using (var conexao = new SqlConnection(connectStringSomee))
+                {
+                    var query = @"select  idEvento, nome, descricao, dataEvento, statusEvento from evento Where idEvento = @id";
+
+                    var param = new { id = id };
+                    conexao.Open();
+                    var resultado = await conexao.QueryAsync<Evento>(query, param);
+
+                    return resultado.FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public async Task<IEnumerable<Evento>> BuscarPelaDataAsync(DateTime dataInicio, DateTime dataFim)
         {
             try

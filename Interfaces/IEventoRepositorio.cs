@@ -25,6 +25,9 @@ namespace TCC.Interfaces
         Task<IEnumerable<Evento>> BuscarPelaDataAsync(DateTime dataInicio, DateTime dataFim);
 
         Task<Evento> InativarAsync(Evento evento);
+
         Task<List<EventoComUsuariosParticipantes>> BuscarTodosAsync();
+
+        Task<Evento> BuscarPorIdAsync(int id);
     }
 }

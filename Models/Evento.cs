@@ -63,6 +63,12 @@ namespace TCC.Models
             return resultado;
         }
 
+        public async Task<Evento> PegarPeloidAsync(int id)
+        {
+            var resultado = await _eventoRepositorio.BuscarPorIdAsync(id);
+            return resultado;
+        }
+
         public async Task<List<EventoComUsuariosParticipantes>> BuscarTodosAsync()
         {
             var resultado = await _eventoRepositorio.BuscarTodosAsync();

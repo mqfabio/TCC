@@ -100,7 +100,7 @@ namespace TCC.Controllers
             {
                 if (resultado)
                 {
-                    return StatusCode(HttpStatusCode.Created.GetHashCode());
+                    return StatusCode(HttpStatusCode.OK.GetHashCode());
                 }
 
                 else
@@ -163,6 +163,28 @@ namespace TCC.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpGet("buscaId/{id}")]
+        public async Task<IActionResult> PegarPeloIdAsync(int id)
+        {
+            var resultado = await _evento.PegarPeloidAsync(id);
+            try
+            {
+                if (resultado != null)
+                {
+                    return Ok(resultado);
+                }
+
+                else
+                {
+                    return BadRequest("Insira um nome valido");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(HttpStatusCode.InternalServerError.GetHashCode());
+            }
+            throw new NotImplementedException();
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]

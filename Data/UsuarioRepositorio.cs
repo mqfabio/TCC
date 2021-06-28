@@ -26,7 +26,7 @@ namespace TCC.Data
            
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  
                                         idUsuario, 
@@ -64,7 +64,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 { 
                     var resultado2 = await BuscarPorEmailAsync(email);
                     if(resultado2 == null)
@@ -91,12 +91,12 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"INSERT INTO [dbo].[usuario]
                                 ( senha, codUE, RM, CPF, RG, dataNascimento, nomeUsuario, email, statusUsuario, perfil, titulacao, cargo)
                             Values
-                                (@Senha, @CodUE, @RM, @CPF, @RG, @DataNascimento, @NomeUsuario, @email,@StatusUsuario, @Perfil, @Titulacao, @cargo)";
+                                (@Senha, @CodUE, @RM, @CPF, @RG, @DataNascimento, @NomeUsuario, @email, @StatusUsuario, @Titulacao, @Perfil, @Titulacao, @cargo)";
 
                     var validacao = await BuscarPorEmailAsync(usuario.Email);
 
@@ -124,10 +124,10 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select  IdUsuario, Senha, CodUE, RM, CPF, RG, DataNascimento, NomeUsuario, Email, Cargo, 
-                                          StatusUsuario, Perfil from usuario";
+                                          StatusUsuario, Titulacao, Perfil from usuario";
                     var resultado = await conexao.QueryAsync<Usuario>(query);
 
                     return resultado;
@@ -144,7 +144,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"UPDATE [dbo].[usuario] set
                                 senha = @senha, 
@@ -157,7 +157,8 @@ namespace TCC.Data
                                 email = @email, 
                                 cargo = @cargo, 
                                 statusUsuario = @statusUsuario, 
-                                perfil = @perfil
+                                perfil = @perfil,
+                                titulacao = @Titulacao
                             WHERE idUSuario = @idUsuario";
 
                     usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha);
