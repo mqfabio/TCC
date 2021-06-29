@@ -96,7 +96,7 @@ namespace TCC.Data
                     var query = @"INSERT INTO [dbo].[usuario]
                                 ( senha, codUE, RM, CPF, RG, dataNascimento, nomeUsuario, email, statusUsuario, perfil, titulacao, cargo)
                             Values
-                                (@Senha, @CodUE, @RM, @CPF, @RG, @DataNascimento, @NomeUsuario, @email, @StatusUsuario, @Titulacao, @Perfil, @Titulacao, @cargo)";
+                                (@Senha, @CodUE, @RM, @CPF, @RG, @DataNascimento, @NomeUsuario, @email, @StatusUsuario, @Perfil, @Titulacao, @cargo)";
 
                     var validacao = await BuscarPorEmailAsync(usuario.Email);
 
@@ -124,7 +124,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"select  IdUsuario, Senha, CodUE, RM, CPF, RG, DataNascimento, NomeUsuario, Email, Cargo, 
                                           StatusUsuario, Titulacao, Perfil from usuario";
@@ -144,7 +144,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringLocal))
+                using (var conexao = new SqlConnection(connectStringSomee))
                 {
                     var query = @"UPDATE [dbo].[usuario] set
                                 senha = @senha, 

@@ -169,7 +169,7 @@ namespace TCC.Data
         {
             try
             {
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                 {
                     var query = @"select 
                                         p.idEvento 'IdEvento',
@@ -220,9 +220,10 @@ namespace TCC.Data
             try
             {
                 
-                using (var conexao = new SqlConnection(connectStringSomee))
+                using (var conexao = new SqlConnection(connectStringLocal))
                     {
                     if(nomeEvento != null) nomeEvento = nomeEvento + '%';
+                    else if(nomeEvento == null && dataInicio == null && datafim == null) nomeEvento = nomeEvento + '%';
                     var param = new { nomeEvento = nomeEvento, dataInicio = dataInicio, datafim = datafim};
                     var query = @"select 
                                         p.idEvento 'IdEvento',
